@@ -1,0 +1,141 @@
+﻿<Window
+    x:Class="WpfApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <local:BoolToBlurConverter x:Key="BoolToBlur" />
+        <local:BooleanToInverseBooleanConverter x:Key="BooleanToInverseBoolean" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Panel.ZIndex="1000"
+            Background="LightBlue"
+            CornerRadius="3"
+            Visibility="{Binding ShowOverlay, Converter={StaticResource BoolToVisibility}}">
+            <Border Margin="5" Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Margin="10"
+                        Command="{Binding CloseOverlayCommand}"
+                        Content="Close" />
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        Foreground="DimGray"
+                        Text="I'm a smooth overlay!" />
+                </Grid>
+            </Border>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=IsVisible}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.5" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                            From="0"
+                                            Duration="0:0:0.3" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                            From="0"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="25" ShadowDepth="5" />
+            </Border.Effect>
+        </Border>
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Background="#a5b1c2"
+            IsEnabled="{Binding ShowOverlay, Converter={StaticResource BooleanToInverseBoolean}}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="50"
+                    Command="{Binding ShowOverlayCommand}"
+                    Content="Open the overlay" />
+            </Grid>
+
+
+            <Border.Effect>
+                <BlurEffect Radius="{Binding ShowOverlay, Converter={StaticResource BoolToBlur}}" />
+            </Border.Effect>
+        </Border>
+
+
+
+
+
+
+    </Grid>
+</Window>
