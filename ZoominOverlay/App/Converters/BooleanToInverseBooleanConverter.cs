@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WpfApp
+namespace DemoWpfApplication.Converters
 {
     public class BooleanToInverseBooleanConverter : IValueConverter
     {

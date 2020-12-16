@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace WpfApp
+namespace DemoWpfApplication.Commands
 {
-    public class SimpleRelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action _commandAction;
         private Func<bool> _canExecuteCommand;
@@ -15,7 +15,7 @@ namespace WpfApp
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public SimpleRelayCommand(Action commandAction, Func<bool> canExecuteCommand = null)
+        public RelayCommand(Action commandAction, Func<bool> canExecuteCommand = null)
         {
             _commandAction = commandAction;
             _canExecuteCommand = canExecuteCommand;

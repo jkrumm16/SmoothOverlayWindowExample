@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WpfApp
+namespace DemoWpfApplication.ViewModels.Base
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
@@ -14,7 +14,7 @@ namespace WpfApp
 
         #region Methods
 
-        protected void SetFieldAndNotifyPropertyChanged<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        protected void SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
 
